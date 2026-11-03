@@ -1,21 +1,26 @@
-import React, { useCallback, useRef } from 'react';
-import { Platform, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { LogBox, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { BlurView } from 'expo-blur';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DarkTheme, NavigationContainer, type Theme } from '@react-navigation/native';
 import { createNativeStackNavigator, type NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CHARTS, type ChartDef } from './app/charts';
+import type { SymbolViewProps } from 'expo-symbols';
+import { CHARTS } from './app/charts';
 import { Aurora } from './app/Aurora';
-import { ChartView, EmbeddedChart, SeeAll, WatchRow } from './app/ChartCard';
-import { CustomizeSheet } from './app/CustomizeSheet';
-import { ChartStoreProvider, useChartStore } from './app/store';
+import { Gallery } from './app/Gallery';
+import { Playground } from './app/Playground';
+import { Showcase } from './app/Showcase';
+import { ChartStoreProvider } from './app/store';
 import { theme } from './app/theme';
-import { Segmented } from './app/Segmented';
+import { Icon } from './app/ui';
 
-export type RootStackParamList = { Home: undefined; Customize: { id: string } };
+// Keep screen recordings of the demo free of the dev warning toast.
+LogBox.ignoreAllLogs();
+
+export type RootStackParamList = { Home: undefined; Playground: { id: string } };
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const navTheme: Theme = {
@@ -23,138 +28,80 @@ const navTheme: Theme = {
   colors: { ...DarkTheme.colors, primary: theme.accent, background: theme.bg, card: theme.bg, text: theme.text, border: theme.separator },
 };
 
-/** Must match `sheetAllowedDetents[0]` of the Customize sheet. */
-const SHEET_DETENT = 0.6;
-/** Collapsed iOS nav bar height (below the status bar). */
-const BAR = 52;
-const PAD = 20;
-const RANGES = ['1D', '1W', '1M', '6M', '1Y'] as const;
-const RANGE_POINTS = [20, 40, 70, 110, 150] as const;
-/** Ticker rows → the chart each one customises. */
-const WATCHLIST = [
-  { ticker: 'AAPL', name: 'Apple Inc.', id: 'line', seed: 11 },
-  { ticker: 'NVDA', name: 'NVIDIA Corp.', id: 'area', seed: 23 },
-  { ticker: 'BTC-USD', name: 'Bitcoin', id: 'candle', seed: 5 },
-  { ticker: 'MSFT', name: 'Microsoft Corp.', id: 'bar', seed: 42 },
-] as const;
-// Home sections, top to bottom. Every chart is full width – no horizontal scrollers, so dragging,
-// pinching and scrubbing a chart never fights with a carousel.
-const SECTIONS: { title: string; hint: string; ids: string[] }[] = [
-  { title: 'Markets', hint: 'Prices & volume', ids: ['candle', 'area', 'bar'] },
-  { title: 'Breakdown', hint: 'Allocation', ids: ['pie', 'rings'] },
-  { title: 'Insights', hint: 'Portfolio analytics', ids: ['stackedArea', 'stackedBar', 'histogram'] },
-  { title: 'Discover', hint: 'Risk & factors', ids: ['scatter', 'bubble', 'radar', 'gauge', 'heatmap'] },
+type TabKey = 'gallery' | 'showcase';
+const TABS: { key: TabKey; label: string; title: string; icon: SymbolViewProps['name']; fallback: string }[] = [
+  { key: 'gallery', label: 'Gallery', title: 'Charts', icon: 'square.grid.2x2', fallback: '▦' },
+  { key: 'showcase', label: 'Showcase', title: 'Showcase', icon: 'sparkles', fallback: '✦' },
 ];
-const byId = (id: string): ChartDef | undefined => CHARTS.find((d) => d.id === id);
 
-type ViewRef = React.ComponentRef<typeof View>;
-type ScrollRef = React.ComponentRef<typeof ScrollView>;
-
-/** Staggered entrance: each block fades up slightly after the previous one. */
-const Stagger = ({ i, children }: { i: number; children: React.ReactNode }) => (
-  <Animated.View entering={FadeInDown.delay(80 + i * 55).duration(480)}>{children}</Animated.View>
-);
+/** Floating frosted tab bar. */
+const TabBar = ({ value, onChange }: { value: TabKey; onChange: (t: TabKey) => void }) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View pointerEvents="box-none" style={[styles.tabBarWrap, { bottom: Math.max(insets.bottom, 12) }]}>
+      <BlurView intensity={60} tint="systemChromeMaterialDark" style={styles.tabBar}>
+        {TABS.map((t) => {
+          const on = t.key === value;
+          return (
+            <Pressable key={t.key} accessibilityRole="tab" accessibilityState={{ selected: on }} accessibilityLabel={t.label}
+              onPress={() => { if (!on) { void Haptics.selectionAsync(); onChange(t.key); } }}
+              style={[styles.tab, on && styles.tabOn]}>
+              <Icon name={t.icon} fallback={t.fallback} size={17} color={on ? theme.text : theme.sub} />
+              <Text style={[styles.tabLabel, on && styles.tabLabelOn]}>{t.label}</Text>
+            </Pressable>
+          );
+        })}
+      </BlurView>
+    </View>
+  );
+};
 
 function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
-  const { configs, update } = useChartStore();
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const scrollRef = useRef<ScrollRef>(null);
-  const offset = useRef(0);
-  const nodes = useRef(new Map<string, ViewRef>());
-  const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => { offset.current = e.nativeEvent.contentOffset.y; }, []);
-  const full = width - PAD * 2;
-
-  /**
-   * Opens the sheet and, in the same frame, smoothly scrolls the chart being edited into the strip of
-   * the home screen that stays visible above the sheet (centred if it fits, otherwise top-aligned).
-   */
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const [tab, setTab] = useState<TabKey>('gallery');
+  // Resting offset under the large title (negative, set by UIKit's automatic insets); learned from the first drag.
+  const rest = useRef<number | null>(null);
+  const onBeginDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const y = e.nativeEvent.contentOffset.y;
+    if (rest.current === null || y < rest.current) rest.current = y;
+  };
   const open = useCallback((id: string) => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    nodes.current.get(id)?.measureInWindow((_x: number, y: number, _w: number, h: number) => {
-      const top = insets.top + BAR;
-      const visible = height * (1 - SHEET_DETENT) - top;
-      const desired = top + Math.max(8, (visible - h) / 2);
-      scrollRef.current?.scrollTo({ y: Math.max(-top, offset.current + (y - desired)), animated: true });
-    });
-    navigation.navigate('Customize', { id });
-  }, [navigation, insets.top, height]);
-  const register = (id: string) => (v: ViewRef | null) => { if (v) nodes.current.set(id, v); else nodes.current.delete(id); };
-
-  const line = byId('line');
-  const lineCfg = configs.line;
-  const range = Math.max(0, RANGE_POINTS.findIndex((p) => p >= (lineCfg?.count ?? 0)));
-  let k = 0;
-  const wide = (id: string) => {
-    const def = byId(id);
-    const cfg = configs[id];
-    if (!def || !cfg) return null;
-    return (
-      <Stagger key={id} i={k++}>
-        <View ref={register(id)} collapsable={false} style={styles.divider}>
-          <EmbeddedChart def={def} cfg={cfg} width={full} onOpen={() => open(id)} />
-        </View>
-      </Stagger>
-    );
-  };
+    navigation.navigate('Playground', { id });
+  }, [navigation]);
+  useEffect(() => {
+    navigation.setOptions({ title: TABS.find((t) => t.key === tab)?.title ?? 'Charts' });
+  }, [navigation, tab]);
+  // New tab starts at the top, with the large title expanded. Without a drag yet, we're still at the top.
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return; }
+    const y = rest.current;
+    if (y !== null) requestAnimationFrame(() => scrollRef.current?.scrollTo({ y, animated: false }));
+  }, [tab]);
+  const auroraH = Math.min(520, height * 0.6);
 
   return (
     <View style={styles.flex}>
       {/* The ScrollView must be the screen's first native subview: UIKit only links the large title to the
           first scroll view it finds, so anything rendered before it (like the aurora) stops the collapse. */}
-      <ScrollView ref={scrollRef} onScroll={onScroll} scrollEventThrottle={16} contentInsetAdjustmentBehavior="automatic" style={styles.flex}
-        // Extra room at the bottom so even the last chart can be lifted above the sheet.
-        contentContainerStyle={[styles.body, { paddingBottom: height * SHEET_DETENT }]}>
+      <ScrollView ref={scrollRef} onScrollBeginDrag={onBeginDrag} contentInsetAdjustmentBehavior="automatic" style={styles.flex}
+        contentContainerStyle={[styles.body, { paddingBottom: insets.bottom + 110 }]}>
         {/* Aurora lives inside the scroll content, pulled up behind the transparent large header. */}
-        <View pointerEvents="none" style={{ position: 'absolute', top: -(insets.top + BAR + 60), left: 0, width, height: Math.min(520, height * 0.6) }}>
-          <Aurora width={width} height={Math.min(520, height * 0.6)} />
+        <View pointerEvents="none" style={[styles.aurora, { top: -(insets.top + 112), width, height: auroraH }]}>
+          <Aurora width={width} height={auroraH} />
         </View>
-        <Stagger i={k++}>
-          <Text style={styles.caption}>My Portfolio</Text>
-          <Text style={styles.balance}>$128,420.55</Text>
-          <Text style={styles.change}>▲ $1,204.18 (0.95%) <Text style={styles.sub}>Today</Text></Text>
-        </Stagger>
-
-        {line && lineCfg ? (
-          <Stagger i={k++}>
-            <View ref={register('line')} collapsable={false} style={styles.hero}>
-              <View style={styles.row}>
-                <Text style={styles.heroTicker}>{line.title} <Text style={styles.sub}>{line.subtitle}</Text></Text>
-                <SeeAll onPress={() => open('line')} />
-              </View>
-              <View style={styles.heroChart}><ChartView def={line} cfg={lineCfg} width={full} height={220} /></View>
-              <Segmented options={RANGES} value={RANGES[range] ?? '1D'}
-                onChange={(r) => update('line', { count: RANGE_POINTS[RANGES.indexOf(r)] ?? 20 })} />
-            </View>
-          </Stagger>
-        ) : null}
-
-        <Stagger i={k++}>
-          <View style={styles.sectionRow}><Text style={styles.section}>Watchlist</Text></View>
-          {WATCHLIST.map((w, i) => (
-            <View key={w.ticker} style={i > 0 && styles.divider}>
-              <WatchRow ticker={w.ticker} name={w.name} seed={w.seed} onPress={() => open(w.id)} />
-            </View>
-          ))}
-        </Stagger>
-
-        {SECTIONS.map((sec) => [
-          <Stagger key={sec.title} i={k++}>
-            <View style={styles.sectionHead}>
-              <Text style={styles.section}>{sec.title}</Text>
-              <Text style={styles.sub}>{sec.hint}</Text>
-            </View>
-          </Stagger>,
-          ...sec.ids.map(wide),
-        ])}
-        <Text style={styles.footer}>Rendered with react-native-skia 3.8 · Graphite GPU</Text>
+        {tab === 'gallery' ? <Gallery key="g" width={width} onOpen={open} /> : <Showcase key="s" width={width} onOpen={open} />}
       </ScrollView>
+      <TabBar value={tab} onChange={setTab} />
     </View>
   );
 }
 
-function CustomizeScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'Customize'>) {
-  return <CustomizeSheet id={route.params.id} onDone={() => navigation.goBack()} />;
+function PlaygroundScreen({ route }: NativeStackScreenProps<RootStackParamList, 'Playground'>) {
+  return <Playground id={route.params.id} />;
 }
 
 export default function App() {
@@ -169,12 +116,11 @@ export default function App() {
                 name="Home"
                 component={HomeScreen}
                 options={{
-                  title: 'Stocks',
+                  title: 'Charts',
                   headerLargeTitle: true,
                   // Transparent large header so the aurora shows through; it blurs once collapsed.
                   headerTransparent: true,
-                  // Soft frosted material once the title collapses, never an opaque bar.
-                  headerBlurEffect: 'systemUltraThinMaterialDark',
+                  headerBlurEffect: 'dark',
                   headerStyle: { backgroundColor: 'transparent' },
                   headerLargeTitleShadowVisible: false,
                   headerShadowVisible: false,
@@ -183,19 +129,16 @@ export default function App() {
                   headerLargeTitleStyle: { color: theme.text },
                 }}
               />
-              {/* Customisation is a native bottom sheet (UISheetPresentationController on iOS), not a pushed page. */}
               <Stack.Screen
-                name="Customize"
-                component={CustomizeScreen}
-                options={{
-                  presentation: 'formSheet',
-                  headerShown: false,
-                  sheetAllowedDetents: [SHEET_DETENT, 1],
-                  sheetGrabberVisible: true,
-                  sheetCornerRadius: 28,
-                  sheetExpandsWhenScrolledToEdge: true,
-                  contentStyle: { backgroundColor: theme.sheet },
-                }}
+                name="Playground"
+                component={PlaygroundScreen}
+                options={({ route }) => ({
+                  title: CHARTS.find((d) => d.id === route.params.id)?.name ?? 'Chart',
+                  headerBackTitle: 'Charts',
+                  headerStyle: { backgroundColor: theme.bg },
+                  headerShadowVisible: false,
+                  headerTitleStyle: { color: theme.text },
+                })}
               />
             </Stack.Navigator>
           </NavigationContainer>
@@ -207,18 +150,12 @@ export default function App() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: 'transparent' },
-  body: { paddingHorizontal: PAD, paddingTop: 4 },
-  row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  caption: { color: theme.sub, fontSize: 15, fontWeight: '600' },
-  balance: { color: theme.text, fontSize: 40, fontWeight: '700', letterSpacing: -1, fontVariant: ['tabular-nums'], marginTop: 2 },
-  change: { color: theme.up, fontSize: 15, fontWeight: '600', marginTop: 2, fontVariant: ['tabular-nums'] },
-  sub: { color: theme.sub, fontSize: 13, fontWeight: '500' },
-  hero: { marginTop: 22, gap: 12 },
-  heroTicker: { color: theme.text, fontSize: 20, fontWeight: '700', flexShrink: 1 },
-  heroChart: { marginHorizontal: -4 },
-  sectionRow: { marginTop: 30, marginBottom: 4 },
-  section: { color: theme.text, fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
-  divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.separator },
-  sectionHead: { marginTop: 30, marginBottom: 2, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
-  footer: { color: theme.sub, fontSize: 12, textAlign: 'center', marginTop: 28 },
+  body: { paddingHorizontal: 20, paddingTop: 4 },
+  aurora: { position: 'absolute', left: 0 },
+  tabBarWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
+  tabBar: { flexDirection: 'row', borderRadius: 30, overflow: 'hidden', padding: 5, gap: 4, borderWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(255,255,255,0.16)' },
+  tab: { flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 18, paddingVertical: 11, borderRadius: 25 },
+  tabOn: { backgroundColor: 'rgba(255,255,255,0.12)' },
+  tabLabel: { color: theme.sub, fontSize: 15, fontWeight: '600' },
+  tabLabelOn: { color: theme.text },
 });

@@ -4,8 +4,9 @@ import { CHARTS, initialConfig, type ChartConfig } from './charts';
 type Configs = Record<string, ChartConfig>;
 interface Store { configs: Configs; update: (id: string, patch: Partial<ChartConfig>) => void; reset: (id: string) => void }
 const Ctx = createContext<Store | null>(null);
-const defaults = (): Configs => Object.fromEntries(CHARTS.map((d, i) => [d.id, initialConfig(d, i)]));
+const defaults = (): Configs => Object.fromEntries(CHARTS.map((d) => [d.id, initialConfig(d)]));
 
+/** Per-chart playground settings, shared so gallery tiles reflect what you changed. */
 export const ChartStoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [configs, setConfigs] = useState<Configs>(defaults);
   const update = useCallback((id: string, patch: Partial<ChartConfig>) => {
@@ -15,9 +16,8 @@ export const ChartStoreProvider = ({ children }: { children: React.ReactNode }) 
     });
   }, []);
   const reset = useCallback((id: string) => {
-    const i = CHARTS.findIndex((d) => d.id === id);
-    const def = CHARTS[i];
-    if (def) setConfigs((c) => ({ ...c, [id]: initialConfig(def, i) }));
+    const def = CHARTS.find((d) => d.id === id);
+    if (def) setConfigs((c) => ({ ...c, [id]: initialConfig(def) }));
   }, []);
   const value = useMemo(() => ({ configs, update, reset }), [configs, update, reset]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

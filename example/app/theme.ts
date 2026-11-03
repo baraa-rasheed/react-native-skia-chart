@@ -11,7 +11,8 @@ export const theme = {
   chip: '#1A1A2B',
   /** iOS inset-grouped cell (dark, translucent so the aurora bleeds through). */
   cell: 'rgba(255,255,255,0.065)',
-  sheet: '#0C0C16',
+  /** Gallery tile surface. */
+  card: 'rgba(255,255,255,0.045)',
   up: '#34E39A',
   down: '#FF5C7A',
   destructive: '#FF453A',
