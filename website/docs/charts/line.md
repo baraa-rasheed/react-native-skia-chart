@@ -6,9 +6,9 @@ sidebar_position: 1
 
 Time series with morphing updates and UI-thread scrubbing.
 
-![Line chart illustration](/img/charts/line.svg)
+![Line chart in the example app](/img/charts/line.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

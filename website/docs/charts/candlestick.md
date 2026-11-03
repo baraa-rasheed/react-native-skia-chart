@@ -6,9 +6,9 @@ sidebar_position: 11
 
 Financial OHLC data with a crosshair.
 
-![Candlestick & OHLC illustration](/img/charts/candlestick.svg)
+![Candlestick & OHLC in the example app](/img/charts/candlestick.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

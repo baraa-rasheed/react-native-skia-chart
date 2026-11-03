@@ -6,9 +6,9 @@ sidebar_position: 3
 
 Vertical, horizontal and grouped bars with staggered entry.
 
-![Bar chart illustration](/img/charts/bar.svg)
+![Bar chart in the example app](/img/charts/bar.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

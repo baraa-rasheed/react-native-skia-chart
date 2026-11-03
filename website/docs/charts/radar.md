@@ -6,9 +6,9 @@ sidebar_position: 10
 
 Multi-axis comparison.
 
-![Radar chart illustration](/img/charts/radar.svg)
+![Radar chart in the example app](/img/charts/radar.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

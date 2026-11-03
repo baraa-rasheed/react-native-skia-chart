@@ -3,7 +3,7 @@ id: example-app
 title: Example app
 ---
 
-`example/` is an Expo SDK 58 app styled like a production iOS stocks app, with a dark **aurora** look.
+`example/` is an Expo SDK 58 app that shows every chart and lets you customise it live, with a dark **aurora** look.
 
 ```sh
 cd example
@@ -11,31 +11,30 @@ npm install
 npx expo run:ios   # or run:android. Skia v3 needs a dev build.
 ```
 
-## Home
+![The example app](/img/readme/screens.png)
 
-- One screen, **Stocks**, on a native stack. The large title and header are transparent over an animated aurora (blurred Skia circles driven by `useClock`). The header blurs once the title collapses.
-- **Portfolio**: total balance and today's change, then a hero **AAPL** line chart with a native segmented range control (1D / 1W / 1M / 6M / 1Y). The range changes the number of points.
-- **Watchlist**: rows with a ticker and name, a `Sparkline`, the price and a green or red change badge.
-- **Markets** (BTC-USD candlesticks, NVDA area, MSFT volume), **Breakdown** (holdings donut, goal rings), **Insights** (allocation, AMZN revenue, SPY returns) and **Discover** (risk / return scatter, mega caps bubbles, GOOGL factors radar, Fear & Greed gauge, ETH-USD activity heatmap). Every chart is embedded full width in one vertical list, with no carousels or horizontal scrollers. Dragging, pinching and scrubbing a chart never competes with a swipe.
-- Blocks fade in one after another (Reanimated `FadeInDown`).
-- Charts stay interactive in place. You can scrub or use the crosshair, tap to select and highlight bars, slices, points, cells and rings, pinch to zoom, use two fingers to pan, and double-tap to reset.
-- Data comes from a seeded PRNG, so charts look the same on every launch.
+The app has two tabs, **Gallery** and **Showcase**, switched with a floating frosted tab bar. Tapping any chart opens its **Playground**.
 
-## Customize sheet
+## Gallery
 
-Each section has a subtle **See All ›** link. You can also tap a watchlist row or a tile title. Either one opens a native bottom sheet (`presentation: 'formSheet'`, detents 60% / 100%, grabber). The home page scrolls smoothly so the chart you are editing sits centred in the area still visible above the sheet.
+- A large **Charts** title over an animated aurora (blurred Skia circles driven by `useClock`). The header blurs once the title collapses.
+- A hero area chart that streams a new point every second. Same-length updates morph on the UI thread instead of redrawing.
+- Every chart type as a live preview card, grouped by what it's for: **Trends**, **Comparison**, **Part of whole**, **Correlation**, **Finance** and **KPI**. Each card shows the component name. Cards reflect whatever you changed in the playground.
+- Blocks fade in one after another (Reanimated `FadeInDown`). Data comes from a seeded PRNG, so charts look the same on every launch.
 
-The sheet follows iOS Settings patterns, with inset-grouped sections, native switches, segmented controls, glassy `expo-blur` buttons, SF Symbols (`expo-symbols`) and haptics:
+## Playground
 
-- a header with the chart type, title and a glass **Done** button;
-- no preview inside the sheet: the sheet uses a native translucent blur (`expo-blur` `systemChromeMaterialDark` over a transparent `formSheet` on iOS). Edits apply live to the real chart, which stays visible above the sheet;
-- **Appearance**: colour swatches, a **Gradient** segmented control (None / Linear / Radial / Sweep) and an end colour (uses the `gradient` prop);
-- **Interaction** switches per chart type: *Tap to select*, *Pinch to zoom*, *Long-press to scrub* and *Scrubbing / Crosshair*;
-- **Data**: a glass −/+ stepper for the point count, and **Randomize**;
-- **Options**: chart-specific switches such as grid, smooth curve, scrubbing, horizontal, 100% stacked, donut, needle and OHLC bars;
-- **GPU Effects**: drop shadow, neon glow, an SkSL shader segment control and a colour filter segment control;
-- **Reset to Defaults**.
+One scroll view per chart, with:
 
-Edits apply live to the chart behind the sheet. On Android, `formSheet` is presented as a modal, and blur falls back to a translucent fill.
+- a **readout** (big value, change badge and caption) that follows scrubbing and selection, for example the open, high and low of the candle under your finger;
+- the **chart** itself, with axis labels drawn from a Skia system font (`matchFont`);
+- tabs for **Style** (colour swatches, None / Linear / Radial / Sweep gradient and end colour, plus chart-specific switches such as smooth curve, horizontal, 100% stacked, donut, centre label, needle and OHLC bars), **Data** (a −/+ stepper, **Randomize data** and, for line, area and gauge, **Live data**), **Gestures** (scrub, long-press to scrub, tap to select, pinch to zoom) and **Effects** (drop shadow, neon glow, an SkSL shader and a colour filter), plus **Reset to defaults**.
+
+Gradients are hidden for the candlestick and heatmap, where colour already carries meaning.
+
+## Showcase
+
+- **Finance**: portfolio balance that follows the scrubbed point, a range control (1D / 1W / 1M / 6M / 1Y), a watchlist of `Sparkline` rows that open their playground, and an allocation donut with a legend.
+- **Fitness**: selectable activity rings with a legend, weekly steps as a bar chart and heart rate as an area chart.
 
 The app resolves the library from `../src` via `metro.config.js`, so edits hot-reload.

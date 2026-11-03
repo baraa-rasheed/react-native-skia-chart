@@ -6,9 +6,9 @@ sidebar_position: 6
 
 Layered areas, absolute or 100% stacked.
 
-![Stacked area chart illustration](/img/charts/stacked-area.svg)
+![Stacked area chart in the example app](/img/charts/stacked-area.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

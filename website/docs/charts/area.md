@@ -6,9 +6,11 @@ sidebar_position: 2
 
 A filled line chart, plus `Sparkline` for inline trends.
 
-![Area chart & Sparkline illustration](/img/charts/area.svg)
+![Area chart in the example app](/img/charts/area.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+![Sparkline watchlist rows in the example app](/img/charts/sparkline.png)
+
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

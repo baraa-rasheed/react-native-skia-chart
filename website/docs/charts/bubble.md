@@ -6,9 +6,9 @@ sidebar_position: 9
 
 Scatter with a third dimension mapped to radius.
 
-![Bubble chart illustration](/img/charts/bubble.svg)
+![Bubble chart in the example app](/img/charts/bubble.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

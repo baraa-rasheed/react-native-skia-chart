@@ -6,9 +6,9 @@ sidebar_position: 4
 
 Bars stacked by series.
 
-![Stacked bar chart illustration](/img/charts/stacked-bar.svg)
+![Stacked bar chart in the example app](/img/charts/stacked-bar.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

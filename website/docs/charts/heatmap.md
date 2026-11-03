@@ -6,9 +6,9 @@ sidebar_position: 12
 
 Grid of cells coloured by value.
 
-![Heatmap illustration](/img/charts/heatmap.svg)
+![Heatmap in the example app](/img/charts/heatmap.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

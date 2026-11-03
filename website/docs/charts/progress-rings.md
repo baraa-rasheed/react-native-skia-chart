@@ -6,9 +6,9 @@ sidebar_position: 14
 
 Concentric activity-style rings.
 
-![Progress rings illustration](/img/charts/progress-rings.svg)
+![Progress rings in the example app](/img/charts/progress-rings.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

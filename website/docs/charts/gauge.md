@@ -6,9 +6,9 @@ sidebar_position: 13
 
 Speedometer-style dial with an animated needle.
 
-![Gauge illustration](/img/charts/gauge.svg)
+![Gauge in the example app](/img/charts/gauge.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

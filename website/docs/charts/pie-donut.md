@@ -6,9 +6,9 @@ sidebar_position: 7
 
 Pie and donut charts with pad angles and a centre label.
 
-![Pie & Donut illustration](/img/charts/pie-donut.svg)
+![Pie & Donut in the example app](/img/charts/pie-donut.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

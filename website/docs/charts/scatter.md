@@ -6,9 +6,9 @@ sidebar_position: 8
 
 Point clouds.
 
-![Scatter chart illustration](/img/charts/scatter.svg)
+![Scatter chart in the example app](/img/charts/scatter.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

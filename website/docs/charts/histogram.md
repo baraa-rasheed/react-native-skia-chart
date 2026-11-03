@@ -6,9 +6,9 @@ sidebar_position: 5
 
 Bins raw values and renders them as bars.
 
-![Histogram illustration](/img/charts/histogram.svg)
+![Histogram in the example app](/img/charts/histogram.png)
 
-*Illustration. Run the [example app](../example-app) to see it live.*
+*Screenshot from the [example app](../example-app). Run it to try every option live.*
 
 ## Usage
 

@@ -21,7 +21,9 @@ Every chart accepts an `effects` prop. All effects are executed by Skia Graphite
 />
 ```
 
-<div className="placeholder">Screenshot placeholder — Customize sheet with glow + shimmer.</div>
+![A line chart with a linear gradient, neon glow and the shimmer shader](/img/effects/glow-shimmer.png)
+
+*Linear gradient, `glow: 8` and `shader: 'shimmer'` in the example app's Line playground.*
 
 | Option | Type | Skia primitive | Notes |
 | --- | --- | --- | --- |

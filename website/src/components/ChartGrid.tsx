@@ -3,7 +3,7 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './ChartGrid.module.css';
 
-// One tile per chart page in docs/charts. `slug` is both the doc id and the illustration name.
+// One tile per chart page in docs/charts. `slug` is both the doc id and the screenshot name.
 export const CHARTS = [
   { slug: 'line', name: 'Line' },
   { slug: 'area', name: 'Area & Sparkline' },
@@ -24,7 +24,7 @@ export const CHARTS = [
 function Tile({ slug, name }: { slug: string; name: string }) {
   return (
     <Link to={`/docs/charts/${slug}`} className={styles.tile}>
-      <img src={useBaseUrl(`/img/charts/${slug}.svg`)} alt="" loading="lazy" />
+      <img src={useBaseUrl(`/img/charts/${slug}.png`)} alt="" loading="lazy" />
       <span>{name}</span>
     </Link>
   );

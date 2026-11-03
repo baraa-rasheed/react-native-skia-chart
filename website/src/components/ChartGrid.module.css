@@ -27,6 +27,7 @@
 }
 .tile img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
+  /* Screenshots from the example app (800x673, rounded corners baked in). */
+  aspect-ratio: 800 / 673;
+  object-fit: cover;
 }

@@ -14,6 +14,10 @@
 
 ---
 
+<p align="center">
+  <img src="website/static/img/readme/screens.png" alt="The example app: chart gallery, candlestick and donut playgrounds, and finance and fitness showcase screens" />
+</p>
+
 Most React Native chart libraries draw SVG through the bridge. This one draws every bar, slice and candle with `react-native-skia` 3.8 (Metal on iOS, Vulkan on Android). Scrubbing, selection and pinch-zoom run as Reanimated worklets. Your finger moves the cursor without a React re-render on each frame.
 
 ```tsx
@@ -31,32 +35,32 @@ import { LineChart } from 'react-native-skia-chart';
 
 ## Charts
 
-Click a chart to open its docs page.
+Every image below is a screenshot of the [example app](example). Click a chart to open its docs page.
 
 <table>
   <tr>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/line"><img src="website/static/img/charts/line.svg" width="260" alt="Line" /><br /><b>Line</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/area"><img src="website/static/img/charts/area.svg" width="260" alt="Area & Sparkline" /><br /><b>Area &amp; Sparkline</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/bar"><img src="website/static/img/charts/bar.svg" width="260" alt="Bar" /><br /><b>Bar</b></a></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/line"><img src="website/static/img/charts/line.png" width="260" alt="Line chart" /></a><br /><b>Line</b><br /><sub><code>LineChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/area"><img src="website/static/img/charts/area.png" width="260" alt="Area & Sparkline chart" /></a><br /><b>Area &amp; Sparkline</b><br /><sub><code>AreaChart · Sparkline</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/bar"><img src="website/static/img/charts/bar.png" width="260" alt="Bar chart" /></a><br /><b>Bar</b><br /><sub><code>BarChart</code></sub></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/stacked-bar"><img src="website/static/img/charts/stacked-bar.svg" width="260" alt="Stacked bar" /><br /><b>Stacked bar</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/histogram"><img src="website/static/img/charts/histogram.svg" width="260" alt="Histogram" /><br /><b>Histogram</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/stacked-area"><img src="website/static/img/charts/stacked-area.svg" width="260" alt="Stacked area" /><br /><b>Stacked area</b></a></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/stacked-bar"><img src="website/static/img/charts/stacked-bar.png" width="260" alt="Stacked bar chart" /></a><br /><b>Stacked bar</b><br /><sub><code>StackedBarChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/histogram"><img src="website/static/img/charts/histogram.png" width="260" alt="Histogram chart" /></a><br /><b>Histogram</b><br /><sub><code>Histogram</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/stacked-area"><img src="website/static/img/charts/stacked-area.png" width="260" alt="Stacked area chart" /></a><br /><b>Stacked area</b><br /><sub><code>StackedAreaChart</code></sub></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/pie-donut"><img src="website/static/img/charts/pie-donut.svg" width="260" alt="Pie & Donut" /><br /><b>Pie &amp; Donut</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/scatter"><img src="website/static/img/charts/scatter.svg" width="260" alt="Scatter" /><br /><b>Scatter</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/bubble"><img src="website/static/img/charts/bubble.svg" width="260" alt="Bubble" /><br /><b>Bubble</b></a></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/pie-donut"><img src="website/static/img/charts/pie-donut.png" width="260" alt="Pie & Donut chart" /></a><br /><b>Pie &amp; Donut</b><br /><sub><code>PieChart · DonutChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/scatter"><img src="website/static/img/charts/scatter.png" width="260" alt="Scatter chart" /></a><br /><b>Scatter</b><br /><sub><code>ScatterChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/bubble"><img src="website/static/img/charts/bubble.png" width="260" alt="Bubble chart" /></a><br /><b>Bubble</b><br /><sub><code>BubbleChart</code></sub></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/radar"><img src="website/static/img/charts/radar.svg" width="260" alt="Radar" /><br /><b>Radar</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/candlestick"><img src="website/static/img/charts/candlestick.svg" width="260" alt="Candlestick & OHLC" /><br /><b>Candlestick &amp; OHLC</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/heatmap"><img src="website/static/img/charts/heatmap.svg" width="260" alt="Heatmap" /><br /><b>Heatmap</b></a></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/radar"><img src="website/static/img/charts/radar.png" width="260" alt="Radar chart" /></a><br /><b>Radar</b><br /><sub><code>RadarChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/candlestick"><img src="website/static/img/charts/candlestick.png" width="260" alt="Candlestick & OHLC chart" /></a><br /><b>Candlestick &amp; OHLC</b><br /><sub><code>CandlestickChart · OHLCChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/heatmap"><img src="website/static/img/charts/heatmap.png" width="260" alt="Heatmap chart" /></a><br /><b>Heatmap</b><br /><sub><code>HeatmapChart</code></sub></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/gauge"><img src="website/static/img/charts/gauge.svg" width="260" alt="Gauge" /><br /><b>Gauge</b></a></td>
-    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/progress-rings"><img src="website/static/img/charts/progress-rings.svg" width="260" alt="Progress rings" /><br /><b>Progress rings</b></a></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/gauge"><img src="website/static/img/charts/gauge.png" width="260" alt="Gauge chart" /></a><br /><b>Gauge</b><br /><sub><code>GaugeChart</code></sub></td>
+    <td align="center" width="33%"><a href="https://baraa-rasheed.github.io/react-native-skia-chart/docs/charts/progress-rings"><img src="website/static/img/charts/progress-rings.png" width="260" alt="Progress rings chart" /></a><br /><b>Progress rings</b><br /><sub><code>ProgressRings · ProgressRing</code></sub></td>
   </tr>
 </table>
 
@@ -90,7 +94,11 @@ You need `react-native-skia` ≥ 3.8, Reanimated ≥ 4 and worklets ≥ 0.7. It 
 
 ## Example app
 
-A stocks-style home screen with every chart embedded full width. Tap **See All** on a chart to tweak colours, gradients, effects and interactions live in a native blur sheet.
+The example app is the quickest way to see what the library can do:
+
+- **Gallery**: every chart type as a live preview, grouped by what it's for (trends, comparison, part of whole, correlation, finance, KPI).
+- **Playground**: tap any chart to scrub, select and zoom it, and change colours, gradients, data, gestures and GPU effects live.
+- **Showcase**: finance and fitness screens built from the same components.
 
 ```sh
 cd example && npm install && npx expo run:ios   # or run:android
