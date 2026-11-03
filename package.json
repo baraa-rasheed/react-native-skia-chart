@@ -1,6 +1,6 @@
 {
   "name": "react-native-skia-chart",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "GPU-accelerated, animated charts for React Native & Expo, rendered with React Native Skia (docs: github.com/wcandillon/react-native-skia) and animated with Reanimated worklets. A modern successor to @rainbow-me/react-native-animated-charts.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
