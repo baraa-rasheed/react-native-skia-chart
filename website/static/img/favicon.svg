@@ -1,31 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="react-native-skia-chart">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1B1F3B"/>
-      <stop offset="1" stop-color="#0B0D17"/>
+      <stop offset="0" stop-color="#2A1F66"/>
+      <stop offset="1" stop-color="#07061A"/>
     </linearGradient>
     <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#5EE7DF"/>
-      <stop offset="1" stop-color="#B490CA"/>
-    </linearGradient>
-    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5EE7DF" stop-opacity=".35"/>
-      <stop offset="1" stop-color="#5EE7DF" stop-opacity="0"/>
+      <stop offset="0" stop-color="#8B7CFF"/>
+      <stop offset=".5" stop-color="#FF4FD8"/>
+      <stop offset="1" stop-color="#00E0C6"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <!-- candles -->
-  <g stroke-linecap="round">
-    <line x1="15" y1="30" x2="15" y2="50" stroke="#EF5350" stroke-width="1.6"/>
-    <rect x="12" y="34" width="6" height="11" rx="1.5" fill="#EF5350"/>
-    <line x1="26" y1="24" x2="26" y2="48" stroke="#26A69A" stroke-width="1.6"/>
-    <rect x="23" y="28" width="6" height="14" rx="1.5" fill="#26A69A"/>
-    <line x1="37" y1="28" x2="37" y2="46" stroke="#26A69A" stroke-width="1.6" opacity=".55"/>
-    <rect x="34" y="31" width="6" height="10" rx="1.5" fill="#26A69A" opacity=".55"/>
-  </g>
-  <!-- glowing trend line -->
-  <path d="M8 44 C18 40 22 22 32 26 S44 34 56 12 V56 H8 Z" fill="url(#fill)"/>
-  <path d="M8 44 C18 40 22 22 32 26 S44 34 56 12" fill="none" stroke="url(#line)" stroke-width="3.2" stroke-linecap="round"/>
-  <circle cx="56" cy="12" r="3.4" fill="#fff"/>
-  <circle cx="56" cy="12" r="6.5" fill="#B490CA" opacity=".3"/>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <rect x="11" y="37" width="10" height="16" rx="3.5" fill="#8B7CFF" opacity=".6"/>
+  <rect x="27" y="29" width="10" height="24" rx="3.5" fill="#8B7CFF" opacity=".6"/>
+  <rect x="43" y="21" width="10" height="32" rx="3.5" fill="#8B7CFF" opacity=".6"/>
+  <path d="M9 42 C17 41 19 31 26 32 S35 36 40 28 S48 17 55 15" fill="none" stroke="url(#line)" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="55" cy="15" r="4.2" fill="#FFFFFF"/>
 </svg>

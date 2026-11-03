@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="website/static/img/logo.svg" width="72" alt="" />
+  <img src="website/static/img/logo.svg" width="96" alt="" />
 </p>
 
 <h1 align="center">react-native-skia-chart</h1>
