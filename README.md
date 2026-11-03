@@ -33,6 +33,17 @@ import { LineChart } from 'react-native-skia-chart';
 />
 ```
 
+## See it move
+
+<table>
+  <tr>
+    <td align="center" width="25%"><img src="website/static/img/readme/scrub.gif" width="200" alt="Scrubbing a candlestick chart with a crosshair" /><br /><sub>Scrub with a crosshair</sub></td>
+    <td align="center" width="25%"><img src="website/static/img/readme/customize.gif" width="200" alt="Changing colour, gradient, glow, shader and live data on a line chart" /><br /><sub>Gradients, glow, shaders, live data</sub></td>
+    <td align="center" width="25%"><img src="website/static/img/readme/select.gif" width="200" alt="Tapping donut slices to select them" /><br /><sub>Tap to select</sub></td>
+    <td align="center" width="25%"><img src="website/static/img/readme/showcase.gif" width="200" alt="Finance and fitness screens built with the library" /><br /><sub>Real-world screens</sub></td>
+  </tr>
+</table>
+
 ## Charts
 
 Every image below is a screenshot of the [example app](example). Click a chart to open its docs page.
