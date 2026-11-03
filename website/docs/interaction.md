@@ -5,7 +5,7 @@ title: Animation & gestures
 
 ## Entry & morph animations
 
-All charts animate in on mount. When `data` changes, paths morph on the UI thread with `SkPath.interpolate`.
+All charts animate in on mount. When `data` changes, paths morph on the UI thread with `SkPath.interpolate`. Line and area charts replay the entry animation only when the number of series or points changes. Same-length updates, such as live data, morph from the old values to the new ones.
 
 ```tsx
 <LineChart data={data} animation={{ duration: 800, delay: 100 }} entry="draw" /> // 'draw' | 'grow' | 'none'
@@ -53,5 +53,13 @@ const [sel, setSel] = useState<number | null>(null);
 ```
 
 `selectedIndex` refers to the category slot for bars, the slice for pie charts, the point for scatter and bubble charts, the ring for progress rings (outer ring is 0), and `row * columns + column` for heatmaps.
+
+### Native stack on iOS 26
+
+On iOS 26, React Navigation's native stack turns on a full-screen back swipe by default. A finger moving right during a pinch or two-finger pan can start that swipe and pop the screen instead of zooming the chart. On screens with zoomable charts, keep the edge swipe and turn the full-screen one off:
+
+```tsx
+<Stack.Screen name="Chart" component={ChartScreen} options={{ fullScreenGestureEnabled: false }} />
+```
 
 You can build the same behaviour into your own Skia charts with the exported helpers `ChartFrame`, `ZoomGroup`, `useSelection`, `useHighlight` and `useToChart`.

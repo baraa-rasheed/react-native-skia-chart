@@ -135,6 +135,9 @@ export default function App() {
                 options={({ route }) => ({
                   title: CHARTS.find((d) => d.id === route.params.id)?.name ?? 'Chart',
                   headerBackTitle: 'Charts',
+                  // iOS 26 turns on a full-screen back swipe by default, which steals pinch and two-finger pan
+                  // from zoomable charts. The edge swipe still goes back.
+                  fullScreenGestureEnabled: false,
                   headerStyle: { backgroundColor: theme.bg },
                   headerShadowVisible: false,
                   headerTitleStyle: { color: theme.text },
