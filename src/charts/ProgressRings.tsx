@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { EffectsLayer } from '../effects/EffectsLayer';
+import { EffectsLayer, effectsInset } from '../effects/EffectsLayer';
 import { Canvas, Group, Path } from 'react-native-skia';
 import {
   Easing,
@@ -102,7 +102,7 @@ export const ProgressRings = (props: ProgressRingsProps) => {
   } = props;
   const cx = width / 2;
   const cy = height / 2;
-  const outer = Math.min(width, height) / 2 - thickness / 2;
+  const outer = Math.min(width, height) / 2 - thickness / 2 - effectsInset(effects);
   const n = data.length;
   const { gesture, selected } = useSelection(props, (px, py) => {
     'worklet';

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { EffectsLayer } from '../effects/EffectsLayer';
+import { EffectsLayer, effectsInset } from '../effects/EffectsLayer';
 import { Canvas, Group, Line, Path, Skia, Text, vec } from 'react-native-skia';
 import { useDerivedValue } from 'react-native-reanimated';
 import type { BaseChartProps, RadarSeries } from '../types';
@@ -34,7 +34,7 @@ export const RadarChart = ({
 }: RadarChartProps) => {
   const cx = width / 2;
   const cy = height / 2;
-  const r = Math.min(width, height) / 2 - (font ? 28 : 8);
+  const r = Math.min(width, height) / 2 - (font ? 28 : 8) - effectsInset(effects) / 2;
   const n = axes.length;
   const m = max ?? Math.max(1, ...series.flatMap((s) => s.values));
   const angle = (i: number) => -Math.PI / 2 + (i / n) * Math.PI * 2;

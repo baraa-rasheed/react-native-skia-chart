@@ -171,7 +171,10 @@ export const LineChart = (props: LineChartProps) => {
     return { geoms: g, yScale: yS, ticks: niceTicks(yd, gridTicks), baseline: height - pad.bottom };
   }, [allSeries, width, height, pad.left, pad.right, pad.top, pad.bottom, yDomain, gridTicks]);
 
-  const progress = useEntryProgress(animation, [geoms]);
+  // Replay the entry animation only when the shape of the data changes (series / point count).
+  // Same-length updates (live data, range tweaks) morph smoothly via usePathTransition instead of redrawing.
+  const shape = geoms.map((g) => g.line.length).join(',');
+  const progress = useEntryProgress(animation, [shape]);
   const duration = animation?.duration ?? 600;
 
   // ----- scrubbing (UI thread) -----

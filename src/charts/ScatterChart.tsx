@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { EffectsLayer } from '../effects/EffectsLayer';
+import { EffectsLayer, effectsInset } from '../effects/EffectsLayer';
 import { Canvas, Circle, Group } from 'react-native-skia';
 import { useDerivedValue, withTiming, type SharedValue } from 'react-native-reanimated';
 import type { BaseChartProps, BubblePoint, ScatterPoint } from '../types';
@@ -114,7 +114,8 @@ export const BubbleChart = (props: BubbleChartProps) => {
     backgroundColor,
     padding,
   } = props;
-  const pad = resolvePadding(padding, maxRadius);
+  // Selected marks grow 1.5x, so keep that much room (plus shadow / glow) around the plot by default.
+  const pad = resolvePadding(padding, Math.ceil(maxRadius * 1.5) + Math.max(4, effectsInset(effects)));
   if (font) pad.left = Math.max(pad.left, 36);
   const { dots, yS, ticks } = useMemo(() => {
     const xS = linearScale(extent(data.map((d) => d.x)), [pad.left, width - pad.right]);

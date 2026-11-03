@@ -49,7 +49,7 @@ export {
   monotoneCubicInterpolation,
 } from './compat/AnimatedCharts';
 export type { ChartData, ChartPathProps } from './compat/AnimatedCharts';
-export { EffectsLayer, COLOR_MATRICES } from './effects/EffectsLayer';
+export { EffectsLayer, COLOR_MATRICES, effectsInset } from './effects/EffectsLayer';
 export type {
   ChartEffects,
   ChartGradient,

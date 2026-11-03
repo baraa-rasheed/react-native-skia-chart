@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { EffectsLayer } from '../effects/EffectsLayer';
+import { EffectsLayer, effectsInset } from '../effects/EffectsLayer';
 import { Canvas, Group, Path, Text, type SkFont } from 'react-native-skia';
 import { useDerivedValue, withTiming, type SharedValue } from 'react-native-reanimated';
 import type { BaseChartProps, PieSlice } from '../types';
@@ -89,7 +89,8 @@ export const PieChart = (props: PieChartProps) => {
   const size = Math.min(width, height);
   const cx = width / 2;
   const cy = height / 2;
-  const r = size / 2 - 4;
+  // Leave room for the 8px pop-out of a selected slice and for the shadow / glow.
+  const r = size / 2 - Math.max(10, effectsInset(effects));
   const inner = r * innerRadius;
   const slices = useMemo(() => {
     const total = data.reduce((a, s) => a + Math.max(0, s.value), 0) || 1;

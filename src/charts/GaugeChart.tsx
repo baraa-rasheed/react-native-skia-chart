@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { EffectsLayer } from '../effects/EffectsLayer';
+import { EffectsLayer, effectsInset } from '../effects/EffectsLayer';
 import { Canvas, Circle, Group, Line, Path, SweepGradient, Text, vec, type SkFont } from 'react-native-skia';
 import { Easing, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import type { BaseChartProps } from '../types';
@@ -53,7 +53,7 @@ export const GaugeChart = ({
 }: GaugeChartProps) => {
   const cx = width / 2;
   const cy = height / 2 + (sweep <= 180 ? height / 4 : 0);
-  const r = Math.min(width, sweep <= 180 ? height * 1.5 : height) / 2 - thickness;
+  const r = Math.min(width, sweep <= 180 ? height * 1.5 : height) / 2 - thickness - effectsInset(effects) / 2;
   const start = 90 + (360 - sweep) / 2;
   const target = Math.min(1, Math.max(0, (value - min) / (max - min || 1)));
   const t = useSharedValue(0);

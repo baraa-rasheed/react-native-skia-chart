@@ -131,6 +131,18 @@ export interface ChartEffects {
   shader?: ShaderPreset;
 }
 
+/**
+ * Pixels a chart should keep clear around its marks so the drop shadow / glow is not cut off at the canvas edge.
+ * Radial charts subtract this from their radius; axis charts already have room in their default padding.
+ */
+export const effectsInset = (e?: ChartEffects): number => {
+  if (!e) return 0;
+  const s = e.shadow === true ? {} : e.shadow || null;
+  const shadow = s ? (s.blur ?? 8) * 2 + Math.max(Math.abs(s.dx ?? 0), Math.abs(s.dy ?? 6)) : 0;
+  const glow = e.glow ? e.glow * 2 : 0;
+  return Math.ceil(Math.max(shadow, glow));
+};
+
 const SHADERS: Record<Exclude<ShaderPreset, 'none'>, string> = {
   shimmer: `uniform float t; uniform float2 size;
 half4 main(float2 p){ float x = p.x / size.x - fract(t * 0.35) * 2.0 + 0.5; float a = smoothstep(0.25, 0.0, abs(x)) * 0.65; return half4(a, a, a, a); }`,
