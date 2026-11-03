@@ -30,7 +30,7 @@ One scroll view per chart, with:
 - the **chart** itself, with axis labels drawn from a Skia system font (`matchFont`);
 - tabs for **Style** (colour swatches, None / Linear / Radial / Sweep gradient and end colour, plus chart-specific switches such as smooth curve, horizontal, 100% stacked, donut, centre label, needle and OHLC bars), **Data** (a −/+ stepper, **Randomize data** and, for line, area and gauge, **Live data**), **Gestures** (scrub, long-press to scrub, tap to select, pinch to zoom) and **Effects** (drop shadow, neon glow, an SkSL shader and a colour filter), plus **Reset to defaults**.
 
-Gradients are hidden for the candlestick and heatmap, where colour already carries meaning.
+Gradients are hidden for the candlestick, heatmap, stacked charts and radar, where colour already carries meaning.
 
 ## Showcase
 

@@ -114,7 +114,7 @@ export interface ChartDef {
   color: string;
   /** Supports streaming data in the playground. */
   live?: boolean;
-  /** Colour carries meaning (up/down, intensity), so a gradient tint would hide it. */
+  /** Colour carries meaning (up/down, intensity, one colour per series), so a gradient tint would hide it. */
   noGradient?: boolean;
   flags: Flag[];
   build: (cfg: ChartConfig, tick: number) => Built;
@@ -179,7 +179,7 @@ export const CHARTS: ChartDef[] = [
   },
   {
     id: 'stackedArea', name: 'Stacked area', component: 'StackedAreaChart', category: 'Trends', blurb: 'Composition over time',
-    unit: 'series', min: 1, max: 5, step: 1, initial: 3, color: palette[5],
+    unit: 'series', min: 1, max: 5, step: 1, initial: 3, color: palette[5], noGradient: true,
     flags: [style('percent', '100% stacked', false, 'Show each series as a share'), GRID, ZOOM],
     build: (cfg) => {
       const r = rngFor('stackedArea', cfg);
@@ -249,7 +249,7 @@ export const CHARTS: ChartDef[] = [
   },
   {
     id: 'stackedBar', name: 'Stacked bar', component: 'StackedBarChart', category: 'Comparison', blurb: 'Segments that add up',
-    unit: 'segments', min: 1, max: 5, step: 1, initial: 3, color: palette[4],
+    unit: 'segments', min: 1, max: 5, step: 1, initial: 3, color: palette[4], noGradient: true,
     flags: [GRID, SELECT],
     build: (cfg) => {
       const r = rngFor('stackedBar', cfg);
@@ -366,7 +366,7 @@ export const CHARTS: ChartDef[] = [
   },
   {
     id: 'radar', name: 'Radar', component: 'RadarChart', category: 'Correlation', blurb: 'Multi-axis profiles',
-    unit: 'axes', min: 3, max: 8, step: 1, initial: 6, color: palette[1],
+    unit: 'axes', min: 3, max: 8, step: 1, initial: 6, color: palette[1], noGradient: true,
     flags: [style('labels', 'Axis labels', true), style('compare', 'Compare to index', true, 'Adds a second series')],
     build: (cfg) => {
       const axes = ['Value', 'Growth', 'Momentum', 'Quality', 'Size', 'Yield', 'Volatility', 'ESG'].slice(0, cfg.count);
